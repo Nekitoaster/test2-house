@@ -1,0 +1,43 @@
+$gray-background-color: #b9b2b2;
+$white-background-color: whitesmoke;
+
+.results {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    min-height: 500px;
+    margin: auto;
+    margin-top: 15px;
+    background-color: $gray-background-color;
+    border-radius: 15px;
+    padding: 20px;
+    .last {
+      text-align: center;
+    }
+}
+
+.pagination {
+  list-style: none;
+  height: 31.5px;
+  width: 31.5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 2px;
+  cursor: pointer;
+}
+
+.active {
+  background-color: $white-background-color;
+  border-radius: 50%;
+}
+
+.page {
+  padding: 2px 12px;
+  height: 31.5px;
+  width: 31.5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

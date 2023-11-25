@@ -1,0 +1,18 @@
+$gray-background-color: #b9b2b2;
+
+.item {
+  max-width: 800px;
+  background: $gray-background-color;
+  padding: 10px;
+  margin-bottom: 15px;
+  border-radius: 7px;
+  .title {
+    margin-top: 0px;
+    text-transform: uppercase;
+  }
+  .email {
+    font-weight: 600;
+    text-decoration: underline;
+    margin-right: 10px;
+  }
+}
