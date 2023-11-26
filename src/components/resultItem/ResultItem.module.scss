@@ -3,16 +3,22 @@ $white-background-color: whitesmoke;
 $black-border: #222222;
 
 .item {
-    border-radius: 15px;
-    background: $white-background-color;
-    max-width: 740px;
-    padding: 7px 20px;
-    margin-bottom: 20px;
-    .item__title {
-        text-transform: uppercase;
-        transition: transform 400ms ease;
-        &:hover {
-            transform: scale(1.02);
-        }
+  border-radius: 15px;
+  background: $white-background-color;
+  max-width: 740px;
+  padding: 7px 20px;
+  margin-bottom: 20px;
+  .item__title {
+    text-transform: uppercase;
+    -webkit-transition: -webkit-transform 400ms ease;
+    transition: -webkit-transform 400ms ease;
+    -o-transition: transform 400ms ease;
+    transition: transform 400ms ease;
+    transition: transform 400ms ease, -webkit-transform 400ms ease;
+    &:hover {
+      -webkit-transform: scale(1.02);
+      -ms-transform: scale(1.02);
+      transform: scale(1.02);
     }
+  }
 }
