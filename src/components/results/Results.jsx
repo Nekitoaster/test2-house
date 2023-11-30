@@ -42,7 +42,6 @@ function Results(props) {
     localStorage.setItem("results", JSON.stringify(results));
   }, [results]);
 
-  console.log(data);
   useMemo(() => {
     // Это чтоб каждый раз не делать итерацию по большому массиву
     let arr = [];
@@ -53,8 +52,6 @@ function Results(props) {
       setLastPosts(arr);
     }
   }, [data]);
-
-  console.log(lastPosts);
 
   return (
     <div className={styles.results}>
