@@ -1,12 +1,16 @@
 import { configureStore } from "@reduxjs/toolkit";
-import postsSlice from './posts/postsSlice';
-import commentsSlice from './comments/comments';
+import { postsApi } from "./posts/postsApi";
+import { commentsApi } from "./comments/commentsApi";
 
 // Главное хранилище, которое содержит в себе все остальные
 
 export const store = configureStore({
   reducer: {
-    postsReducer: postsSlice,
-    commentsReducer: commentsSlice,
-},
+    [commentsApi.reducerPath]: commentsApi.reducer,
+    [postsApi.reducerPath]: postsApi.reducer,
+  },
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware()
+      .concat(commentsApi.middleware)
+      .concat(postsApi.middleware),
 });

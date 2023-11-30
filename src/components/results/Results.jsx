@@ -1,13 +1,12 @@
 import ResultItem from "../resultItem/ResultItem";
 import styles from "./Results.module.scss";
 import PropTypes from "prop-types";
-
 import ReactPaginate from "react-paginate";
 import { AiFillLeftCircle, AiFillRightCircle } from "react-icons/ai";
 import { IconContext } from "react-icons";
 import { useEffect, useMemo, useState } from "react";
-import { useSelector } from "react-redux";
 import { useLocalStorage } from "react-use";
+import { useGetPostsQuery } from "../../stores";
 
 Results.propTypes = {
   results: PropTypes.array,
@@ -18,6 +17,7 @@ Results.propTypes = {
 
 function Results(props) {
   const { results } = props;
+  const { data, isLoading } = useGetPostsQuery();
 
   const [page, setPage] = useState(
     JSON.parse(localStorage.getItem("page")) || 0
@@ -25,7 +25,6 @@ function Results(props) {
 
   const [inputData] = useLocalStorage("inputValue", "");
   const n = 10;
-  const postsData = useSelector((state) => state.postsReducer.posts);
   const [lastPosts, setLastPosts] = useState([]);
 
   const filterData = useMemo(() => {
@@ -43,38 +42,41 @@ function Results(props) {
     localStorage.setItem("results", JSON.stringify(results));
   }, [results]);
 
+  console.log(data);
   useMemo(() => {
     // Это чтоб каждый раз не делать итерацию по большому массиву
-    postsData.then((items) => {
-      let arr = [];
+    let arr = [];
+    if (data) {
       for (let i = 1; i !== 11; i++) {
-        arr.push(items[items.length - i]);
+        arr.push(data[data.length - i]);
       }
       setLastPosts(arr);
-    });
-  }, [postsData]);
+    }
+  }, [data]);
+
+  console.log(lastPosts);
 
   return (
     <div className={styles.results}>
+      {isLoading && <h4>Загрузка...</h4>}
       {/* Выводится в случае, если по запросу ничего не найдено */}
-      {inputData && results.length === 0 && <h4>Ничего не найдено</h4>}
+      {inputData && !isLoading && results.length === 0 && <h4>Ничего не найдено</h4>}
       {/* Выводятся последние посты, когда состояния инпута пустое и страница была обновлена */}
-      {!inputData && (
+      {!inputData && !isLoading && (
         <div>
           <h4 className={styles.last}>Последние посты</h4>
-          {lastPosts.map((item) => (
-            <ResultItem key={item.id} props={item} />
-          ))}
+          {lastPosts &&
+            lastPosts.map((item) => <ResultItem key={item.id} props={item} />)}
         </div>
       )}
 
       {/* Когда инпут не возвращает false и когда есть результаты
       мы выводим список результатов, соответствующий запросу */}
       {filterData &&
-        inputData &&
+        inputData && !isLoading &&
         filterData.map((item) => <ResultItem key={item.id} props={item} />)}
       {/* То же что и выше, но только для вывода управления пагинацией */}
-      {results.length > 0 && inputData && (
+      {results.length > 0 && !isLoading && inputData && (
         <ReactPaginate
           containerClassName={styles.pagination}
           pageClassName={styles.page}
